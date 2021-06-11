@@ -24,7 +24,6 @@ $pdo = openConnection();
 
 if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
     //@todo possible bug below? Done
-    var_dump($_POST);
     if (empty($_POST['id'])) {
         $handle = $pdo->prepare('INSERT INTO user (firstname, lastname, year) VALUES (:firstname, :lastname, :year)');
         $message = 'Your record has been added';
@@ -81,7 +80,6 @@ if (!empty($_GET['id'])) {
     $handle->bindValue(':id', $_GET['id']);
     $handle->execute();
     $selectedUser = $handle->fetch();
-    var_dump($selectedUser);
 
     //This segment checks all the current sports for an existing user when you update him. Currently that is not working however. :-(
     $selectedUser['sports'] = [];
@@ -90,10 +88,8 @@ if (!empty($_GET['id'])) {
     $handle->execute();
     $sportss = $handle->fetchAll();
     foreach ($sportss as $sport) {
-        var_dump($sport);
         array_push($selectedUser['sports'], $sport['sport']);
     }
-    var_dump($selectedUser);
 }
 
 if (empty($selectedUser['id'])) {
