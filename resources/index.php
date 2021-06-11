@@ -68,7 +68,7 @@ if (!empty($_POST['firstname']) && !empty($_POST['lastname'])) {
 }
 
 //@todo Invalid query? Done
-$handle = $pdo->prepare('SELECT user.id, concat_ws(firstname, lastname, " ") AS name, sport FROM user LEFT JOIN sport ON user.id = sport.user_id where year = :year order by sport');
+$handle = $pdo->prepare('SELECT user.id, concat_ws(" ",firstname, lastname) AS name, sport FROM user LEFT JOIN sport ON user.id = sport.user_id where year = :year order by sport');
 $handle->bindValue(':year', date('Y'));
 $handle->execute();
 $users = $handle->fetchAll();
@@ -91,7 +91,6 @@ if (!empty($_GET['id'])) {
     $sportss = $handle->fetchAll();
     foreach ($sportss as $sport) {
         var_dump($sport);
-        // $selectedUser['sports'][] = $sport;//@todo I just want an array of all sports of this, why is it not working?
         array_push($selectedUser['sports'], $sport['sport']);
     }
     var_dump($selectedUser);
